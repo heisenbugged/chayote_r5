@@ -1,7 +1,4 @@
 class Admin::ProjectsController < ApplicationController
-  #inherit_resources
-  #actions :index, :new, :create, :edit, :update, :destroy, :show
-
   respond_to :html
   load_and_authorize_resource
   before_filter :authenticate_user!
