@@ -1,0 +1,7 @@
+.grid_12
+  %h2.page_title_w_margin New Project
+  = simple_form_for [:admin, @project] do |f|
+    = f.input :name, :label => "Name: "
+    .green-submit= f.submit
+      
+.clear

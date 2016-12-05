@@ -1,0 +1,43 @@
+.grid_8
+  .left
+    %h2.page_title_w_margin
+      = link_to "projects", root_path
+      >
+      %span.green= @project.name
+
+  - if @tasks_exist
+    %table#tasks-table
+      - @tasks.each do |key, task_array|
+        %tr.date-header
+          %td{:colspan => 3} Last Entry on #{ readable_date(key) }
+
+        - task_array.each_with_index do |task, index|
+          - if index % 2 == 0
+            - tr_class = ""
+          -else
+            - tr_class = "white"
+          %tr{:class => tr_class}
+            %td.title= task.name
+            %td.hours= task.hours.to_s + " hours"
+            %td.actions
+              .small-green-button= link_to "View Entries", task_url(task)
+              
+              .small-green-button= link_to "Edit", edit_task_url(task)
+
+              .small-green-button= link_to "Delete", task_url(task), :method => :delete
+        %tr.filler
+          %td &nbsp
+  - else
+    .no-tasks You don't have any tasks
+
+.grid_4
+  %h2.page_title add a task
+  .add-task
+    = simple_form_for [@project, Task.new] do |f|
+      = f.input :name, :label => false
+      .green-submit= f.submit "Add Task"
+
+      
+.clear
+
+

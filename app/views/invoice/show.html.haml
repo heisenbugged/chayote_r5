@@ -1,0 +1,26 @@
+#invoice-container
+  %table#invoice
+    %tr.no-bg
+      %th Task
+      %th Time
+      %th Rate
+      %th Cost
+    - @grouped_entries.each do |id, user_mapping|
+      %tr
+        %td{:colspan => 4, :style => "background-color: #333;"}
+          %font{:color => "white"}
+            %b= user_mapping.user.full_name
+
+      - user_mapping.tasks.each do |task_mapping|
+        %tr
+          %td.title-1col= task_mapping.task.name
+          %td.title-1col= task_mapping.total.to_s + " hours"
+          %td= number_to_currency(user_mapping.rate)
+          %td= number_to_currency(task_cost(task_mapping.total, user_mapping.rate))
+      %tr.total
+        %td{:colspan => 4, :style => "background-color:#44C0E9;"}
+          = render :partial => 'total', :locals => {:hours => user_mapping.total_hours, :rate => user_mapping.rate}
+  %h1
+    = "Total: " + number_to_currency(@total_cost) + " USD"
+  
+

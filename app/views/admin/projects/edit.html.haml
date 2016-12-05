@@ -1,0 +1,40 @@
+.grid_8
+  %h2.page_title_w_margin Developers
+  %table
+    %thead
+      %tr
+        %th Name
+        %th Rate
+        %th
+    - @project.members.each do |member|
+      %tr
+        %td= member.user.email
+        %td= number_to_currency( member_project_rate(member).amount )
+        %td
+          .small-green-button= link_to "Delete", admin_member_url(member), :method => :delete
+
+  %h3.page_title_w_margin Add a Developer
+  = simple_form_for [:admin, Member.new] do |f|
+    <select name="member[user]">
+    - User.all.each do |user|
+      - unless @project.users.include?(user)
+        <option value="#{user.id}">#{user.email}</option>
+    </select>
+    %span.rate
+      Rate:
+      = text_field_tag 'rate'
+      
+    = hidden_field_tag 'member[project]', @project.id
+
+    .green-submit= f.submit "Add Developer"
+
+  %br/
+  .line
+
+.grid_4
+  %h2.page_title_w_margin Edit #{ @project.name }
+  = simple_form_for [:admin, @project] do |f|
+    = f.input :name, :label => "Name: "
+    .green-submit= f.submit "Update"
+
+.clear

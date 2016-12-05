@@ -1,0 +1,18 @@
+.grid_6
+  .projects
+    - if user_signed_in?
+      %h2.page_title_w_margin projects
+      - if @projects_exist
+        - current_user.projects.each do |project|
+          = link_to project_path(project) do
+            .project-listing= project.name
+
+      - else
+        .not-available You don't have any projects.
+
+.grid_1 &nbsp;
+.grid_5
+  %h2.page_title_w_margin recent activity
+  .not-available Not Available
+  
+.clear

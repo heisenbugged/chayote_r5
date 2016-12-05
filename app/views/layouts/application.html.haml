@@ -1,0 +1,43 @@
+!!!
+%html
+  %head
+    %title Chayote
+    = stylesheet_link_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/redmond/jquery-ui.css"
+    = stylesheet_link_tag "reset", "960", "main"
+
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+    :plain
+      <link href="http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" >
+      <script type="text/javascript" src="http://use.typekit.com/byj4cum.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  %body
+    #header
+      #logo= image_tag "logo.png", :alt => "Chayote"
+      #links
+        %span.link= link_to "Projects", root_url
+        - if user_signed_in?
+          - if current_user.admin?
+            %span.link= link_to "Manage Projects", admin_projects_url
+            %span.link= link_to "Manage Users", admin_users_url
+            %span.link= link_to "Generate Invoice", new_invoice_url
+          %span.link= link_to "Sign Out", destroy_user_session_url
+        - else
+          %span.link= link_to "Sign In", new_user_session_url
+    .main
+      .container_12
+        - if notice
+          .flash.notice= notice
+        - if alert
+          .flash.alert= alert
+        = yield
+
+    .footer
+      .footer-contents
+        chayote is an open source project! hit us up on
+        = link_to "https://github.com/laspluviosillas/chayote" do
+          %span.github github.
+  = render 'shared/javascripts'
+
