@@ -15,6 +15,7 @@ class InvoiceController < ApplicationController
 
     tasks = Task.joins(:time_entries)
                 .where("date >= ? and date <= ?", @start_date, @end_date)
+                .where(project_id: @project.id)
                 .select("tasks.*, SUM(hours) as task_hours")
                 .group("tasks.id")
 
