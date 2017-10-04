@@ -35,9 +35,9 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
+    @task.update_attributes(params[:task])
     @project = @task.project
 
-    byebug
     respond_with(@project)
   end
 end
